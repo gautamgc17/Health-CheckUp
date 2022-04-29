@@ -1,0 +1,37 @@
+h1{
+  padding-top:2%;
+  padding-bottom:2%;
+}
+table{
+  margin:auto;
+  margin-bottom: 3%;
+}
+table,th,td{
+  border: 1px solid black;
+}
+body{
+  background-image: linear-gradient(to right,blue,white);
+  text-align: center;
+}
+td,th{
+  padding:2%;
+  font-size: 120%;
+}
+th{
+  font-family: sans-serif;
+}
+#btnn{
+  margin:2%;
+  border:none;
+  color:black;
+  font-size:20px;
+  padding:10px 20px;
+  display: inline-block;
+  border-radius: 8px;
+  background-color: #7d7d85;
+  margin-left:32%;
+}
+.risk{
+  color:maroon;
+  font-size: 30px;
+}

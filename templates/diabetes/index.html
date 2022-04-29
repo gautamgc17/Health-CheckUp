@@ -1,0 +1,94 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Diabetes Prediction</title>
+    <link rel="stylesheet" href="{% static 'diabetes/style.css' %}" />
+  </head>
+  <body>
+    <h1>Diabetes Prediction</h1>
+    <table>
+      <form id="myForm" action="{% url 'diabetes-predict' %}" method="post" >
+        {% csrf_token %}  
+        <tr class="row">
+          <td>
+            <label for="pregnancies" class="title">Pregnancies</label>
+          </td>
+          <td>
+            <input type="number" class="ip" id="pregnancies" name="pregnancies"><br>
+          </td>
+        </tr>
+        <tr class="row">
+          <td>
+             <label for="glucose" class="title">Glucose:</label>
+          </td>
+          <td>
+            <input type="number" class="ip" id="glucose" name="glucose"><br>
+          </td>
+        </tr>
+        <tr class="row">
+          <td>
+            <label for="bp" class="title">Diastolic Blood Pressure: </label>
+          </td>
+          <td>
+            <input type="number" class="ip" id="bp" name="bp"><br>
+          </td>
+        </tr>
+        <tr class="row">
+          <td>
+            <label for="skin-thickness" class="title">Skin Thickness: </label>
+          </td>
+          <td>
+            <input type="number" class="ip" id="skin-thickness" name="skin-thickness"><br>
+          </td>
+        </tr>
+        <tr class="row">
+          <td>
+            <label for="insulin" class="title">Insulin: </label>
+          </td>
+          <td>
+            <input type="number" class="ip" id="insulin" name="insulin"><br>
+          </td>
+        </tr>
+        <tr class="row">
+          <td>
+            <label for="bmi" class="title">Body Mass Index: </label>
+          </td>
+          <td>
+            <input type="number" class="ip" id="bmi" name="bmi"><br>
+          </td>
+        </tr>
+        <tr class="row">
+          <td>
+            <label for="pedigree-func" class="title">Diabetes Pedigree Function: </label>
+          </td>
+          <td>
+            <input type="number" class="ip" id="pedigree-func" name="pedigree-func"><br>
+          </td>
+        </tr>
+        <tr class="row">
+          <td>
+            <label for="age" class="title">Age: </label>
+          </td>
+          <td>
+            <input type="number" class="ip" id="age" name="age"><br>
+          </td>
+        </tr>
+      </form>
+    </table>
+    
+    <input type="submit" class="butn" value="Submit" onclick = "submit()"/> 
+    <input type="button" class="butn" value="Reset" onClick = "fun()"/>
+    
+    <script>
+        function fun(){
+            document.getElementById("myForm").reset();
+        }
+        function submit(){
+            document.getElementById("myForm").submit();
+        }
+    </script>
+  </body>
+</html>

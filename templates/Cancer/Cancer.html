@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.25.0/axios.min.js"
+      integrity="sha512-/Q6t3CASm04EliI1QyIDAA/nDo9R8FQ/BULoUFyN4n/BDdyIxeH7u++Z+eobdmr11gG5D/6nPFyDlnisDwhpYA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <title>Breast Cancer Classification</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Cancer Diagnostic</h1>
+      <form method="post" action="{% url 'cancer-predict' %}" class="row g-3 justify-content-center">
+        {% csrf_token %}
+        <div class="col-md-4 align-self-center">
+          <div class="card">
+            <div class="card-header text-center">
+              <button
+                class="btn btn-primary"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseRadius"
+                aria-expanded="false"
+                aria-controls="collapseRadius"
+              >
+                Radius
+              </button>
+            </div>
+            <div class="collapse" id="collapseRadius">
+              <div class="card card-body">
+                <div class="mb-3 row">
+                  <label
+                    for="RadiusMean"
+                    class="col-sm-4 col-form-label text-center"
+                    >Mean</label
+                  >
+                  <div class="col-sm-8">
+                    <input name="radius_mean" type="number" class="form-control" id="RadiusMean" />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label
+                    for="RadiusSE"
+                    class="col-sm-4 col-form-label text-center"
+                    >Se</label
+                  >
+                  <div class="col-sm-8">
+                    <input name="radius_se" type="number" class="form-control" id="RadiusSE" />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label
+                    for="RadiusWorst"
+                    class="col-sm-4 col-form-label text-center"
+                    >Worst</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      name="radius_worst"
+                      type="number"
+                      class="form-control"
+                      id="RadiusWorst"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 align-self-center">
+          <div class="card">
+            <div class="card-header text-center">
+              <button
+                class="btn btn-primary"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseTexture"
+                aria-expanded="false"
+                aria-controls="collapseTexture"
+              >
+                Texture
+              </button>
+            </div>
+            <div class="collapse" id="collapseTexture">
+              <div class="card card-body">
+                <div class="mb-3 row">
+                  <label
+                    for="TextureMean"
+                    class="col-sm-4 col-form-label text-center"
+                    >Mean</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      name="texture_mean"
+                      type="number"
+                      class="form-control"
+                      id="TextureMean"
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label
+                    for="TextureSE"
+                    class="col-sm-4 col-form-label text-center"
+                    >Se</label
+                  >
+                  <div class="col-sm-8">
+                    <input name="texture_se" type="number" class="form-control" id="TextureSE" />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label
+                    for="TextureWorst"
+                    class="col-sm-4 col-form-label text-center"
+                    >Worst</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      name="texture_worst"
+                      type="number"
+                      class="form-control"
+                      id="TextureWorst"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 align-self-center">
+          <div class="card">
+            <div class="card-header text-center">
+              <button
+                class="btn btn-primary"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapsePerimeter"
+                aria-expanded="false"
+                aria-controls="collapsePerimeter"
+              >
+                Perimeter
+              </button>
+            </div>
+            <div class="collapse" id="collapsePerimeter">
+              <div class="card card-body">
+                <div class="mb-3 row">
+                  <label
+                    for="PerimeterMean"
+                    class="col-sm-4 col-form-label text-center"
+                    >Mean</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      name="perimeter_mean"
+                      type="number"
+                      class="form-control"
+                      id="PerimeterMean"
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label
+                    for="PerimeterSE"
+                    class="col-sm-4 col-form-label text-center"
+                    >Se</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      name="perimeter_se"
+                      type="number"
+                      class="form-control"
+                      id="PerimeterSE"
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label
+                    for="PerimeterWorst"
+                    class="col-sm-4 col-form-label text-center"
+                    >Worst</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      name="perimeter_worst"
+                      type="number"
+                      class="form-control"
+                      id="PerimeterWorst"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 align-self-center">
+          <div class="card">
+            <div class="card-header text-center">
+              <button
+                class="btn btn-primary"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseArea"
+                aria-expanded="false"
+                aria-controls="collapseArea"
+              >
+                Area
+              </button>
+            </div>
+            <div class="collapse" id="collapseArea">
+              <div class="card card-body">
+                <div class="mb-3 row">
+                  <label
+                    for="AreaMean"
+                    class="col-sm-4 col-form-label text-center"
+                    >Mean</label
+                  >
+                  <div class="col-sm-8">
+                    <input name="area_mean" type="number" class="form-control" id="AreaMean" />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label
+                    for="AreaSE"
+                    class="col-sm-4 col-form-label text-center"
+                    >Se</label
+                  >
+                  <div class="col-sm-8">
+                    <input name="area_se" type="number" class="form-control" id="AreaSE" />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label
+                    for="AreaWorst"
+                    class="col-sm-4 col-form-label text-center"
+                    >Worst</label
+                  >
+                  <div class="col-sm-8">
+                    <input name="area_worst" type="number" class="form-control" id="AreaWorst" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 align-self-center">
+          <div class="card">
+            <div class="card-header text-center">
+              <button
+                class="btn btn-primary"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseSmoothness"
+                aria-expanded="false"
+                aria-controls="collapseSmoothness"
+              >
+                Smoothness
+              </button>
+            </div>
+            <div class="collapse" id="collapseSmoothness">
+              <div class="card card-body">
+                <div class="mb-3 row">
+                  <label
+                    for="SmoothnessMean"
+                    class="col-sm-4 col-form-label text-center"
+                    >Mean</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      name="smoothness_mean"
+                      type="number"
+                      class="form-control"
+                      id="SmoothnessMean"
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label
+                    for="SmoothnessSE"
+                    class="col-sm-4 col-form-label text-center"
+                    >Se</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      name="smoothness_se"
+                      type="number"
+                      class="form-control"
+                      id="SmoothnessSE"
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label
+                    for="SmoothnessWorst"
+                    class="col-sm-4 col-form-label text-center"
+                    >Worst</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      name="smoothness_worst"
+                      type="number"
+                      class="form-control"
+                      id="SmoothnessWorst"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 align-self-center">
+          <div class="card">
+            <div class="card-header text-center">
+              <button
+                class="btn btn-primary"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseCompactness"
+                aria-expanded="false"
+                aria-controls="collapseCompactness"
+              >
+                Compactness
+              </button>
+            </div>
+            <div class="collapse" id="collapseCompactness">
+              <div class="card card-body">
+                <div class="mb-3 row">
+                  <label
+                    for="CompactnessMean"
+                    class="col-sm-4 col-form-label text-center"
+                    >Mean</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      name="compactness_mean"
+                      type="number"
+                      class="form-control"
+                      id="CompactnessMean"
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label
+                    for="CompactnessSE"
+                    class="col-sm-4 col-form-label text-center"
+                    >Se</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      name="compactness_se"
+                      type="number"
+                      class="form-control"
+                      id="CompactnessSE"
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label
+                    for="CompactnessWorst"
+                    class="col-sm-4 col-form-label text-center"
+                    >Worst</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      name="compactness_worst"
+                      type="number"
+                      class="form-control"
+                      id="CompactnessWorst"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 align-self-center">
+          <div class="card">
+            <div class="card-header text-center">
+              <button
+                class="btn btn-primary"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseConcavityPoints"
+                aria-expanded="false"
+                aria-controls="collapseConcavityPoints"
+              >
+                Concavity 
+              </button>
+            </div>
+            <div class="collapse" id="collapseConcavityPoints">
+              <div class="card card-body">
+                <div class="mb-3 row">
+                  <label
+                    for="ConcavityPointsMean"
+                    class="col-sm-4 col-form-label text-center"
+                    >Mean</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      name="concavity_mean"
+                      type="number"
+                      class="form-control"
+                      id="ConcavityPointsMean"
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label
+                    for="ConcavityPointsSE"
+                    class="col-sm-4 col-form-label text-center"
+                    >Se</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      name="concavity_se"
+                      type="number"
+                      class="form-control"
+                      id="ConcavityPointsSE"
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label
+                    for="ConcavityPointsWorst"
+                    class="col-sm-4 col-form-label text-center"
+                    >Worst</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      name="concavity_worst"
+                      type="number"
+                      class="form-control"
+                      id="ConcavityPointsWorst"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 align-self-center">
+          <div class="card">
+            <div class="card-header text-center">
+              <button
+                class="btn btn-primary"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseConcavePoints"
+                aria-expanded="false"
+                aria-controls="collapseConcavePoints"
+              >
+                Concave Points
+              </button>
+            </div>
+            <div class="collapse" id="collapseConcavePoints">
+              <div class="card card-body">
+                <div class="mb-3 row">
+                  <label
+                    for="ConcavePointsMean"
+                    class="col-sm-4 col-form-label text-center"
+                    >Mean</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      name="concave points_mean"
+                      type="number"
+                      class="form-control"
+                      id="ConcavePointsMean"
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label
+                    for="ConcavePointsSE"
+                    class="col-sm-4 col-form-label text-center"
+                    >Se</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      name="concave points_se"
+                      type="number"
+                      class="form-control"
+                      id="ConcavePointsSE"
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label
+                    for="ConcavePointsWorst"
+                    class="col-sm-4 col-form-label text-center"
+                    >Worst</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      name="concave points_worst"
+                      type="number"
+                      class="form-control"
+                      id="ConcavePointsWorst"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 align-self-center">
+          <div class="card">
+            <div class="card-header text-center">
+              <button
+                class="btn btn-primary"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseSymmetry"
+                aria-expanded="false"
+                aria-controls="collapseSymmetry"
+              >
+                Symmetry
+              </button>
+            </div>
+            <div class="collapse" id="collapseSymmetry">
+              <div class="card card-body">
+                <div class="mb-3 row">
+                  <label
+                    for="SymmetryMean"
+                    class="col-sm-4 col-form-label text-center"
+                    >Mean</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      name="symmetry_mean"
+                      type="number"
+                      class="form-control"
+                      id="SymmetryMean"
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label
+                    for="SymmetrySE"
+                    class="col-sm-4 col-form-label text-center"
+                    >Se</label
+                  >
+                  <div class="col-sm-8">
+                    <input name="symmetry_se" type="number" class="form-control" id="SymmetrySE" />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label
+                    for="SymmetryWorst"
+                    class="col-sm-4 col-form-label text-center"
+                    >Worst</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      name="symmetry_worst"
+                      type="number"
+                      class="form-control"
+                      id="SymmetryWorst"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 align-self-center">
+          <div class="card">
+            <div class="card-header text-center">
+              <button
+                class="btn btn-primary"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseFractalDimension"
+                aria-expanded="false"
+                aria-controls="collapseFractalDimension"
+              >
+                Fractal Dimension
+              </button>
+            </div>
+            <div class="collapse" id="collapseFractalDimension">
+              <div class="card card-body">
+                <div class="mb-3 row">
+                  <label
+                    for="FractalDimensionMean"
+                    class="col-sm-4 col-form-label text-center"
+                    >Mean</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      name="fractal_dimension_mean"
+                      type="number"
+                      class="form-control"
+                      id="FractalDimensionMean"
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label
+                    for="FractalDimensionSE"
+                    class="col-sm-4 col-form-label text-center"
+                    >Se</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      name="fractal_dimension_se"
+                      type="number"
+                      class="form-control"
+                      id="FractalDimensionSE"
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label
+                    for="FractalDimensionWorst"
+                    class="col-sm-4 col-form-label text-center"
+                    >Worst</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      name="fractal_dimension_worst"
+                      type="number"
+                      class="form-control"
+                      id="FractalDimensionWorst"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 align-self-center text-center">
+          <button type="submit" class="btn btn-primary text-center">
+            SUBMIT
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script type="text/javascript"></script>
+  </body>
+</html>

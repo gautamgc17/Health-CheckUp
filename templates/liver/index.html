@@ -1,0 +1,119 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Liver-Disease Prediction</title>
+    <link rel="stylesheet" href="{% static 'liver/liver.css' %}" />
+  </head>
+  <body>
+    <h1>Liver-Disease Prediction</h1>
+    <table>
+      <form id="myForm"  action="{% url 'liver-predict' %}" method="post">
+        {% csrf_token %}
+
+        <tr class="row">
+          <td>
+             <label for="age" class="title">Age:</label>
+          </td>
+          <td>
+            <input type="number" class="ip" id="age" name="age"><br>
+          </td>
+        </tr>
+        <tr class="row">
+          <td>
+            <label for="gender" class="title">Gender: </label>
+          </td>
+          <td>
+            <select name="gender" id="gender" class="ip">
+              <option value="0">Female</option>
+              <option value="1">Male</option>
+            </select>
+          </td>
+        </tr>
+        <tr class="row">
+          <td>
+            <label for="tsb" class="title">Total Bilirubin: </label>
+          </td>
+          <td>
+            <input type="number" class="ip" id="tsb" name="tsb" placeholder="milligrams per deciliter(mg/dL)"><br>
+          </td>
+        </tr>
+        <tr class="row">
+          <td>
+            <label for="db" class="title">Direct Bilirubin: </label>
+          </td>
+          <td>
+            <input type="number" class="ip" id="db" name="db" placeholder="milligrams per deciliter(mg/dL)"><br>
+          </td>
+        </tr>
+        <tr class="row">
+          <td>
+            <label for="alp" class="title">Alkaline Phosphatase: </label>
+          </td>
+          <td>
+            <input type="number" class="ip" id="alp" name="alp" placeholder="units per liter(U/L)"><br>
+          </td>
+        </tr>
+        <tr class="row">
+          <td>
+            <label for="alt" class="title">Alanine Aminotransferase: </label>
+          </td>
+          <td>
+            <input type="number" class="ip" id="alt" name="alt" placeholder="units per liter(U/L)"><br>
+          </td>
+        </tr>
+        <tr class="row">
+          <td>
+            <label for="ast" class="title">AspartateAminotransferase: </label>
+          </td>
+          <td>
+            <input type="number" class="ip" id="ast" name="ast" placeholder="units per liter(U/L)"><br>
+          </td>
+        </tr>
+        <tr class="row">
+          <td>
+            <label for="tp" class="title">Total Proteins: </label>
+          </td>
+          <td>
+            <input type="number" class="ip" id="tp" name="tp" placeholder="grams per deciliter(g/dL)"><br>
+          </td>
+        </tr>
+        <tr class="row">
+          <td>
+            <label for="alb" class="title">Albumin: </label>
+          </td>
+          <td>
+            <input type="number" class="ip" id="alb" name="alb" placeholder="grams per deciliter(g/dL)"><br>
+          </td>
+        </tr>
+        <tr class="row">
+          <td>
+            <label for="agr" class="title">Albumin and Globulin Ratio: </label>
+          </td>
+          <td>
+            <input type="number" class="ip" id="agr" name="agr"><br>
+          </td>
+        </tr>
+      </form>
+    </table>
+
+  <input type="submit" class="butn" id="sbmt" value="Submit" onclick = "submit()"/> 
+  <input type="button" class="butn" value="Reset" onClick = "fun()"/>
+    
+  <script>
+      function fun(){
+          document.getElementById("myForm").reset();
+      }
+      function submit(){
+          document.getElementById("myForm").submit();
+      }
+      // function myFunction() {
+      //   document.getElementById("sbmt").onclick = function () {
+      //     location.href = "page2.html";
+      //   };
+      // }
+  </script>
+  </body>
+</html>

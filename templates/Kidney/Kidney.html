@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.25.0/axios.min.js"
+      integrity="sha512-/Q6t3CASm04EliI1QyIDAA/nDo9R8FQ/BULoUFyN4n/BDdyIxeH7u++Z+eobdmr11gG5D/6nPFyDlnisDwhpYA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <title>Kidney Tumor</title>
+  </head>
+  <body>
+    <div class="container-xxl">
+      <div class="row text-center">
+        <h1>Computer Aided Diagnosis Tool for Kidney Tumor Diagnosis</h1>
+      </div>
+      <div class="row">
+        <div class="card col-md-3 mx-auto">
+          <div class="card-header text-center">Menu</div>
+          <div class="card-body">
+            <div class="my-3 text-center">
+              <label class="btn btn-primary w-75" for="mriphoto"
+                >Load input Image</label
+              >
+              <input
+                type="file"
+                id="mriphoto"
+                accept="image/*"
+                style="display: none"
+                onchange="showPreview(event)"
+              />
+            </div>
+            <div class="my-3 text-center">
+              <button
+                onclick="postImage()"
+                id="tclassi"
+                class="w-75 btn btn-primary disabled"
+              >
+                Tumor Classification
+              </button>
+            </div>
+            <div class="my-3 row text-center">
+              <div class="col-lg-6">
+                <button class="btn btn-primary disabled" disabled>
+                  Classification
+                </button>
+              </div>
+              <div class="col-lg-5 pt-1">
+                <p class="Classification">abcd</p>
+              </div>
+            </div>
+            <div class="my-3 text-center">
+              <button class="btn w-75 btn-primary disabled">
+                Tumor Localization
+              </button>
+            </div>
+            <div class="my-3 text-center">
+              <button
+                class="btn btn-danger w-75"
+                onclick="window.location.reload()"
+                type="reset"
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card col-md-4 mx-auto">
+          <div class="card-header text-center">Input Kidney MIR</div>
+          <img
+            id="imageshow"
+            src=""
+            class="card-img-top"
+            alt=""
+          />
+        </div>
+        <div class="card col-md-4 mx-auto">
+          <div class="card-header text-center">Tumor Localization</div>
+          <img src="" class="card-img-top" alt="" />
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script type="text/javascript">
+      let fileData;
+      function showPreview(event) {
+        if (event.target.files.length > 0) {
+          console.log(event);
+          var Classification = document.getElementById("tclassi");
+          fileData = event.target.files[0];
+          var src = URL.createObjectURL(event.target.files[0]);
+          var preview = document.getElementById("imageshow");
+          Classification.classList.remove("disabled");
+          preview.src = src;
+          preview.style.display = "block";
+        }
+      }
+      function postImage() {
+        const file = fileData;
+        axios
+          .post(`${window.location.href}/fafa`)
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    </script>
+  </body>
+</html>

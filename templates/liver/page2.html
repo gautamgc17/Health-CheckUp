@@ -1,0 +1,71 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="{% static 'liver/page2.css' %}" />
+  </head>
+  <body>
+    <h1>Your Details</h1>
+    <table>
+      <tr>
+        <th>Attribute</th>
+        <th>Your Value</th>
+        <th>Normal Range</th>
+        </tr>
+        <tr>
+          <td>Age</td>
+          <td>{{ out_features.age }}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Total Bilirubin</td>
+          <td>{{ out_features.tsb }}</td>
+          <td>0.1-1.2 mg/dL</td>
+        </tr>
+        <tr>
+          <td>Direct Bilirubin</td>
+          <td>{{ out_features.db }}</td>
+          <td>0-0.4 mg/dL</td>
+        </tr>
+        <tr>
+          <td>Alkaline Phosphatase</td>
+          <td>{{ out_features.alp }}</td>
+          <td>44-147 U/L</td>
+        </tr>
+        <tr>
+          <td>Alanine Aminotransferase</td>
+          <td>{{ out_features.alt }}</td>
+          <td>7-56 U/L</td>
+        </tr>
+        <tr>
+          <td>Aspartate Aminotransferase</td>
+          <td>{{ out_features.ast}}</td>
+          <td>5-40 U/L</td>
+        </tr>
+        <tr>
+          <td>Total Proteins</td>
+          <td>{{ out_features.tp }}</td>
+          <td>6-8.3 g/dL</td>
+        </tr>
+        <tr>
+          <td>Albumin</td>
+          <td>{{ out_features.alb }}</td>
+          <td>3.5-5.5 g/dL</td>
+        </tr>
+        <tr>
+          <td>Albumin and Globulin Ratio</td>
+          <td>{{ out_features.agr }}</td>
+          <td>0.8-2.0</td>
+        </tr>
+      </table>
+      {% if pred == 1 %}
+            <p style="color: red;" class="risk" colspan="2"> Risk Level: <span> HIGH </span>  </p>
+      {% else %}
+            <p style="color: blue;" class="risk" colspan="2"> Risk Level: <span> HIGH </span> </p>
+      {% endif %} 
+      <!--input type="button" id="btnn" value="OK"/-->
+  </body>
+</html>

@@ -1,0 +1,31 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Prediction</title>
+    <link rel="stylesheet" href="{% static 'heart/heart.css' %}" />
+</head>
+<body>
+    {% if pred == 1 %}
+        <div class="image">
+            <img src="{% static 'heart/goodHealth.jpg' %}" width="40%" border="2px black solid"/>
+        </div>
+        <div>
+            <h1>Great! You don't have heart disease.</h1>
+        </div>
+
+    {% elif pred == 0 %}
+        <div class="image">
+            <img src="{% static 'heart/sad.png' %}" width="40%" border="2px black solid"/>
+        </div>
+        <div>
+            <h1>Oops! You have a heart disease.</h1>
+        </div>
+
+    {% endif %}
+</body>
+</html>

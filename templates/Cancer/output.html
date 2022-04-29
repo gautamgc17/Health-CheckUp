@@ -1,0 +1,31 @@
+{% load static %}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancer Predicton</title>
+    <link rel="stylesheet" href="{% static 'cancer/style.css' %}">
+</head>
+<body>
+    {% if pred == 'B' %}
+        <div class="image">
+            <img src="{% static 'cancer/happy_emoji.png' %}" width="30%" border="2px black solid"/>
+        </div>
+        <div>
+            <h1>Prediction: <span> Benign (Non Cancerous) </span></h1>
+        </div>
+    {% elif pred == 'M' %}
+        <div class="image">
+            <img src="{% static 'cancer/sad.gif' %}" width="40%" border="2px black solid"/>
+        </div>
+        <div>
+            <h1>Prediction: <span> Malignant (Cancerous) </span></h1>
+        </div>
+    {% endif %}
+</body>
+</html>

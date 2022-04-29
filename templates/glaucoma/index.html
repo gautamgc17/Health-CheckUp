@@ -1,0 +1,160 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.25.0/axios.min.js"
+      integrity="sha512-/Q6t3CASm04EliI1QyIDAA/nDo9R8FQ/BULoUFyN4n/BDdyIxeH7u++Z+eobdmr11gG5D/6nPFyDlnisDwhpYA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <title>Glaucoma Prediction</title>
+  </head>
+  <body>
+    <div class="container-xxl">
+      <div class="row text-center">
+        <h1>Glaucoma Prediction</h1>
+      </div>
+      <div class="row align-items-center">
+        <div class="card col-md-4 mx-auto">
+          <div class="card-header text-center">Menu</div>
+          <div class="card-body">
+            <div class="my-3 text-center">
+              <label class="btn btn-primary w-75" for="glimg"
+                >Load Input Image</label
+              >
+              <input
+                type="file"
+                id="glimg"
+                accept="image/*"
+                style="display: none"
+                onchange="showPreview(event)"
+              />
+            </div>
+            <div class="my-3 text-center">
+              {% csrf_token %}
+              <button
+                onclick="postImage()"
+                id="tclassi"
+                class="w-75 btn btn-primary disabled"
+              >
+                Classify Image
+              </button>
+            </div>
+            <div class="my-3 row text-center">
+              <div class="col-lg-6">
+                <button class="btn btn-primary disabled" disabled>
+                  Prediction
+                </button>
+              </div>
+              <div class="col-lg-5 pt-1">
+                <p class="Classification"></p>
+              </div>
+            </div>
+            <div class="my-3 text-center">
+              <button
+                class="btn btn-danger w-75"
+                onclick="window.location.reload()"
+                type="reset"
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card col-md-5 mx-auto">
+          <div class="card-header text-center">Input Image</div>
+          <div class="row h-100 justify-content-center align-items-center">
+            <img
+              id="imageshow"
+              src=""
+              class="align-self-center"
+              height="0px"
+              width="0px"
+              style="aspect-ratio: unset; box-sizing: content-box"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script type="text/javascript">
+      const imageget = document.getElementById("imageshow");
+      imageget.addEventListener("load", () => {
+        console.log("image");
+        if (imageget.src === "") {
+          imageget.style.width = "0px";
+          imageget.style.height = "0px";
+        } else {
+          imageget.style.width = "349px";
+          imageget.style.height = "349px";
+        }
+      });
+      let fileData = new FormData();
+      function showPreview(event) {
+        if (event.target.files.length > 0) {
+          console.log(event);
+          var Classification = document.getElementById("tclassi");
+          fileData.append("image", event.target.files[0]);
+          var src = URL.createObjectURL(event.target.files[0]);
+          var preview = document.getElementById("imageshow");
+          Classification.classList.remove("disabled");
+          preview.src = src;
+          preview.style.display = "block";
+        }
+      }
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+          const cookies = document.cookie.split(";");
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === name + "=") {
+              cookieValue = decodeURIComponent(
+                cookie.substring(name.length + 1)
+              );
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+      function postImage() {
+        axios
+          .post("", fileData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              "X-CSRFToken": getCookie("csrftoken"),
+            },
+          })
+          .then((response) => {
+            console.log(response);
+            document.getElementsByClassName("Classification")[0].textContent =
+              response.data.label;
+          })
+          .then((error) => {
+            console.log(error);
+          });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,104 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width, initial-scale=1.0">
+    <title>Heart Disease</title>
+    <link rel="stylesheet" href="{% static 'heart/style.css' %}">
+</head>
+<body  background="{% static 'heart/img3.jpg' %}">
+    <div class="container">
+
+        <form action="{% url 'heart-disease-predict' %}" method="post" >
+            {% csrf_token %}
+
+            <div class="heading">
+                <h2> Heart Disease Prediction </h2>
+            </div>
+
+            
+            <div class="box">
+                    <label for="">Age</label>
+                    <input name="age" value="" class="age" id="input" type="number" placeholder="Year">
+             </div>
+            <div class="box">
+                <label for="">Gender</label>
+                <select name="gender" id="select">
+                    <option value=""> --Select gender-- </option>
+                    <option value="1">Male</option>
+                    <option value="0">Female</option>
+                </select>
+            </div>
+            <div class="box">
+                <label for="">ChestPain Type</label>
+                <select name="ChestPainType" id="select">
+                    <option value=""> --Select-- </option>
+                    <option value="3">Typical Angina (TA)</option>
+                    <option value="1">Atypical Angina (ATA)</option>
+                    <option value="2">Non-Anginal Pain (NAP)</option>
+                    <option value="0">Asymptomatic (ASY)</option>
+                </select>
+            </div>
+            <div class="box">
+                <label for="">Resting BP</label>
+                <input name="RestingBP" value="" class="heart" id="input" type="text" placeholder="mm Hg">
+            </div>
+            <div class="box">
+                <label for="">Cholesterol</label>
+                <input name="cholestrol" value="" class="heart" id="input" type="text" placeholder="mm/dl">
+            </div>
+            <div class="box">
+                <label for="">Fasting Blood Sugar</label>
+                <select name="fastingBS" id="select">
+                    <option value=""> --Select-- </option>
+                    <option value="1">1 (If FastingBS > 120 mg/dl)</option>
+                    <option value="0">0 (Otherwise)</option>
+                </select>
+            </div>
+            <div class="box">
+                <label for="">RestingECG</label>
+                <select name="RestingECG" id="select">
+                    <option value="">--Select--</option>
+                    <option value="1">Normal</option>
+                    <option value="2">ST</option>
+                    <option value="0">LVH</option>
+                </select>
+            </div>
+            <div class="box">
+                <label for="">Maximum Heart Rate</label>
+                <input name="maxHR" value="" class="heart" id="input" type="text" placeholder="numeric value between 60 to 202" min="60" max="202">
+            </div>
+            <div class="box">
+                <label for="">Exercise Angina</label>
+                <select name="exercise" id="select">
+                    <option  value=""> --Select--</option>
+                    <option  value="1">YES</option>
+                    <option  value="0">NO</option>
+                </select>
+            </div>
+            
+            <div class="box">
+                <label for="">OldPeak</label>
+                <input name="oldpeak" value="" class="st" id="input" type="text" placeholder="Numeric value measured in depression">
+            </div>
+            <div class="box">
+                <label for="">ST_Slope</label>
+                <select name="st-slope" id="select">
+                    <option value=""> --Select--</option>
+                    <option value="2">UP (upsloping)</option>
+                    <option value="1">FLAT (flat)</option>
+                    <option value="0">DOWN (downsloping)</option>
+                </select>
+            </div>
+            
+            <div class="bttn">
+                <button>Submit</button>
+            </div>
+
+        </form>
+    </div>
+</body>
+</html>

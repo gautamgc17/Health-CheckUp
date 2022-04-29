@@ -1,0 +1,29 @@
+{% load static %} 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetes Prediction</title>
+    <link rel="stylesheet" href="{% static 'diabetes/dia.css' %}" />
+</head>
+<body>
+    {% if pred == 1 %}
+        <div class="image">
+            <img src="{% static 'diabetes/diab.jpg' %}" width="30%" border="2px black solid"/>
+        </div>
+        <div>
+            <h1>Oops! You have Diabetes.</h1>
+        </div>
+    {% elif pred == 0 %}
+        <div class="image">
+            <img src="{% static 'diabetes/no-dia.jpg' %}" width="40%" border="2px black solid"/>
+        </div>
+        <div>
+            <h1>Great! You don't have Diabetes.</h1>
+        </div>
+    {% endif %}
+</body>
+</html>

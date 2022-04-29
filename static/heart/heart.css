@@ -1,0 +1,13 @@
+body{
+  text-align: center;
+  background-image: linear-gradient(to right,#478a46,white);
+}
+h1{
+  color:#336132;
+  margin-left: 30%;
+  margin-right: 30%;
+  font-size: 300%;
+}
+.image{
+  margin-top: 8%;
+}

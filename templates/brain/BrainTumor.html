@@ -1,0 +1,290 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.25.0/axios.min.js"
+      integrity="sha512-/Q6t3CASm04EliI1QyIDAA/nDo9R8FQ/BULoUFyN4n/BDdyIxeH7u++Z+eobdmr11gG5D/6nPFyDlnisDwhpYA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <title>Brain Tumor Classification</title>
+  </head>
+  <body>
+    <div class="container-xxl">
+      <div class="row text-center">
+        <h1>Computer Aided Diagnosis Tool for Brain Tumor Diagnosis</h1>
+      </div>
+      <div class="row">
+        <div class="card col-md-3 mx-auto">
+          <div class="card-header text-center">Menu</div>
+          <div class="card-body">
+            <div class="my-3 text-center">
+              <label class="btn btn-primary w-75" for="mriphoto"
+                >Load input Image</label
+              >
+              <input
+                type="file"
+                id="mriphoto"
+                accept="image/*"
+                style="display: none"
+                onchange="showPreview(event)"
+              />
+            </div>
+            <div class="my-3 text-center">
+              {% csrf_token %}
+              <button
+                onclick="postImage()"
+                id="tclassi"
+                class="w-75 btn btn-primary disabled"
+              >
+                Tumor Classification
+              </button>
+            </div>
+            <div class="my-3 row text-center">
+              <div class="col-lg-6">
+                <button class="btn btn-primary disabled" disabled>
+                  Classification Result
+                </button>
+              </div>
+              <div class="col-lg-5 pt-1">
+                <p class="Classification"></p>
+              </div>
+            </div>
+            <div class="my-3 text-center">
+              <button class="btn w-75 btn-primary disabled">
+                Tumor Localization
+              </button>
+            </div>
+            <div class="my-3 text-center">
+              <button
+                class="btn btn-danger w-75"
+                onclick="window.location.reload()"
+                type="reset"
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card col-md-4 mx-auto">
+          <div class="card-header text-center">Input Brain MIR</div>
+          <div class="row h-100 justify-content-center align-items-center">
+            <img
+              id="imageshow"
+              src=""
+              class="align-self-center"
+              height="0px"
+              width="0px"
+              style="aspect-ratio: unset; box-sizing: content-box"
+            />
+          </div>
+        </div>
+        <div class="card col-md-4 mx-auto">
+          <div class="card-header text-center">Tumor Localization</div>
+          <div class="row h-100 justify-content-center align-items-center">
+            <img
+              id="photo"
+              src=""
+              class="align-self-center"
+              height="0px"
+              width="0px"
+              style="aspect-ratio: unset; box-sizing: content-box"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script type="text/javascript">
+      const imageget = document.getElementById("imageshow");
+      const showimg = document.getElementById("photo");
+      imageget.addEventListener("load", () => {
+        console.log("image");
+        if (imageget.src === "") {
+          imageget.style.width = "0px";
+          imageget.style.height = "0px";
+        } else {
+          imageget.style.width = "350px";
+          imageget.style.height = "350px";
+        }
+      });
+      showimg.addEventListener("load", () => {
+        console.log("image");
+        if (imageget.src === "") {
+          showimg.style.width = "0px";
+          showimg.style.height = "0px";
+        } else {
+          showimg.style.width = "350px";
+          showimg.style.height = "350px";
+        }
+      });
+      let fileData = new FormData();
+      function showPreview(event) {
+        if (event.target.files.length > 0) {
+          console.log(event);
+          var Classification = document.getElementById("tclassi");
+          fileData.append("image", event.target.files[0]);
+          var src = URL.createObjectURL(event.target.files[0]);
+          var preview = document.getElementById("imageshow");
+          Classification.classList.remove("disabled");
+          preview.src = src;
+          preview.style.display = "block";
+        }
+      }
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+          const cookies = document.cookie.split(";");
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === name + "=") {
+              cookieValue = decodeURIComponent(
+                cookie.substring(name.length + 1)
+              );
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+      var Base64 = {
+        _keyStr:
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+        encode: function (e) {
+          var t = "";
+          var n, r, i, s, o, u, a;
+          var f = 0;
+          e = Base64._utf8_encode(e);
+          while (f < e.length) {
+            n = e.charCodeAt(f++);
+            r = e.charCodeAt(f++);
+            i = e.charCodeAt(f++);
+            s = n >> 2;
+            o = ((n & 3) << 4) | (r >> 4);
+            u = ((r & 15) << 2) | (i >> 6);
+            a = i & 63;
+            if (isNaN(r)) {
+              u = a = 64;
+            } else if (isNaN(i)) {
+              a = 64;
+            }
+            t =
+              t +
+              this._keyStr.charAt(s) +
+              this._keyStr.charAt(o) +
+              this._keyStr.charAt(u) +
+              this._keyStr.charAt(a);
+          }
+          return t;
+        },
+        decode: function (e) {
+          var t = "";
+          var n, r, i;
+          var s, o, u, a;
+          var f = 0;
+          e = e.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+          while (f < e.length) {
+            s = this._keyStr.indexOf(e.charAt(f++));
+            o = this._keyStr.indexOf(e.charAt(f++));
+            u = this._keyStr.indexOf(e.charAt(f++));
+            a = this._keyStr.indexOf(e.charAt(f++));
+            n = (s << 2) | (o >> 4);
+            r = ((o & 15) << 4) | (u >> 2);
+            i = ((u & 3) << 6) | a;
+            t = t + String.fromCharCode(n);
+            if (u != 64) {
+              t = t + String.fromCharCode(r);
+            }
+            if (a != 64) {
+              t = t + String.fromCharCode(i);
+            }
+          }
+          t = Base64._utf8_decode(t);
+          return t;
+        },
+        _utf8_encode: function (e) {
+          e = e.replace(/\r\n/g, "\n");
+          var t = "";
+          for (var n = 0; n < e.length; n++) {
+            var r = e.charCodeAt(n);
+            if (r < 128) {
+              t += String.fromCharCode(r);
+            } else if (r > 127 && r < 2048) {
+              t += String.fromCharCode((r >> 6) | 192);
+              t += String.fromCharCode((r & 63) | 128);
+            } else {
+              t += String.fromCharCode((r >> 12) | 224);
+              t += String.fromCharCode(((r >> 6) & 63) | 128);
+              t += String.fromCharCode((r & 63) | 128);
+            }
+          }
+          return t;
+        },
+        _utf8_decode: function (e) {
+          var t = "";
+          var n = 0;
+          var r = (c1 = c2 = 0);
+          while (n < e.length) {
+            r = e.charCodeAt(n);
+            if (r < 128) {
+              t += String.fromCharCode(r);
+              n++;
+            } else if (r > 191 && r < 224) {
+              c2 = e.charCodeAt(n + 1);
+              t += String.fromCharCode(((r & 31) << 6) | (c2 & 63));
+              n += 2;
+            } else {
+              c2 = e.charCodeAt(n + 1);
+              c3 = e.charCodeAt(n + 2);
+              t += String.fromCharCode(
+                ((r & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63)
+              );
+              n += 3;
+            }
+          }
+          return t;
+        },
+      };
+      function postImage() {
+        axios
+          .post("", fileData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              "X-CSRFToken": getCookie("csrftoken"),
+            },
+          })
+          .then((response) => {
+            console.log(response);
+            document.getElementsByClassName("Classification")[0].textContent =
+              response.data.label;
+            document.getElementById(
+              "photo"
+            ).src = `data:image/png;base64,${response.data.photo.slice(2, -1)}`;
+          })
+          .then((error) => {
+            console.log(error);
+          });
+      }
+    </script>
+  </body>
+</html>
