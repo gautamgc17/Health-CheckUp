@@ -42,7 +42,7 @@ function btnenable(event) {
 function book(event) {
     const formdata = new FormData();
     let tabData = event.target.parentElement.parentElement.querySelectorAll('td');
-    const datatoappend = ['Doctor Name: ', 'Specalist: ', 'Time Slot: '];
+    const datatoappend = ['Doctor Name: ', 'Specialist: ', 'Time Slot: '];
     console.log(tabData[2].children[0].querySelectorAll("input:checked")[0].value);
     const modalBody = document.getElementById('modalBody').querySelectorAll('p');
     console.log();
@@ -96,14 +96,12 @@ function book(event) {
         })
         let conbtn = document.getElementById('modalconfirm');
         conbtn.addEventListener('click', () => {
-            console.log
             axios.post('', formdata, {
                 headers: {
                     "Content-Type": 'multipart/form-data',
                     "X-CSRFToken": getCookie("csrftoken"),
                 },
             }).then((response) => {
-                console.log(response)
                 document.getElementById('modalcross').click();
                 document.getElementById('meetingconfirm').click();
             })

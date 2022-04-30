@@ -12,6 +12,12 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
+    <link
+      rel="shortcut icon"
+      href="{% static 'videocall/checkup.png' %}"
+      type="image/png"
+    />
+
     <script crossorigin src="https://unpkg.com/@daily-co/daily-js"></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.25.0/axios.min.js"
@@ -115,10 +121,10 @@
       <div class="container-fluid">
         <a class="navbar-brand" href="#"
           ><img
-            src="{% static 'videocall/Picture1.png' %}"
-            height="60px"
-            width="60px"
-            style="margin: 0"
+            src="{% static 'videocall/Logo.png' %}"
+            height="80px"
+            width="80px"
+            style="margin: 0; padding: 0"
         /></a>
         <button
           class="navbar-toggler"
@@ -332,14 +338,14 @@
                       type="radio"
                       class="btn-check"
                       name='{{doc.name|cut:" "}}'
-                      id='doctor{{doc.name|cut:" "}}1'
+                      id='doctor{{doc.name|cut:" "}1}'
                       autocomplete="off"
                       value="Right Now"
                       onchange="btnenable(event)"
                     />
                     <label
                       class="btn btn-primary"
-                      for='doctor{{doc.name|cut:" "}}1'
+                      for='doctor{{doc.name|cut:" "}1}'
                     >
                       Right Now
                     </label>
@@ -347,14 +353,14 @@
                       type="radio"
                       class="btn-check"
                       name='{{doc.name|cut:" "}}'
-                      id='doctor{{doc.name|cut:" "}}2'
+                      id='doctor{{doc.name|cut:" "}2}'
                       autocomplete="off"
                       value="10-11"
                       onchange="btnenable(event)"
                     />
                     <label
                       class="btn btn-primary"
-                      for='doctor{{doc.name|cut:" "}}2'
+                      for='doctor{{doc.name|cut:" "}2}'
                       >10-11</label
                     >
 
@@ -362,14 +368,14 @@
                       type="radio"
                       class="btn-check"
                       name='{{doc.name|cut:" "}}'
-                      id='doctor{{doc.name|cut:" "}}3'
+                      id='doctor{{doc.name|cut:" "}3}'
                       autocomplete="off"
                       value="11-12"
                       onchange="btnenable(event)"
                     />
                     <label
                       class="btn btn-primary"
-                      for='doctor{{doc.name|cut:" "}}3'
+                      for='doctor{{doc.name|cut:" "}3}'
                       >11-12</label
                     >
 
@@ -377,14 +383,14 @@
                       type="radio"
                       class="btn-check"
                       name='{{doc.name|cut:" "}}'
-                      id='doctor{{doc.name|cut:" "}}4'
+                      id='doctor{{doc.name|cut:" "}4}'
                       autocomplete="off"
                       value="12-1"
                       onchange="btnenable(event)"
                     />
                     <label
                       class="btn btn-primary"
-                      for='doctor{{doc.name|cut:" "}}4'
+                      for='doctor{{doc.name|cut:" "}4}'
                       >12-1</label
                     >
                   </div>
