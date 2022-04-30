@@ -1,0 +1,22 @@
+{% extends 'header.html' %}
+
+{% block content %} 
+
+{% load crispy_forms_tags %}         
+
+<!--Register--> 
+<div class="container py-5">
+	<h1>Register</h1>
+	<form method="POST" action=""  class="form-group">
+		{% csrf_token %}
+        {{ register_form | crispy }} 
+        <div class="container">
+            <div class="row justify-content-center">
+                <button class="btn btn-primary col-md-2 mx-1" type="submit">Register</button>
+                <a class="btn btn-primary col-md-2 mx-1" href="{% url 'login' %}">Login</a>
+            </div> 
+        </div>                   
+	</form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,444 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <script crossorigin src="https://unpkg.com/@daily-co/daily-js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.25.0/axios.min.js"
+      integrity="sha512-/Q6t3CASm04EliI1QyIDAA/nDo9R8FQ/BULoUFyN4n/BDdyIxeH7u++Z+eobdmr11gG5D/6nPFyDlnisDwhpYA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <title>Doctor Appointment</title>
+    <style>
+      .loader {
+        font-size: 10px;
+        margin: 50px auto;
+        text-indent: -9999em;
+        width: 11em;
+        height: 11em;
+        border-radius: 50%;
+        background: #0d56e7;
+        background: -moz-linear-gradient(
+          left,
+          #0d56e7 10%,
+          rgba(13, 86, 231, 0) 42%
+        );
+        background: -webkit-linear-gradient(
+          left,
+          #0d56e7 10%,
+          rgba(13, 86, 231, 0) 42%
+        );
+        background: -o-linear-gradient(
+          left,
+          #0d56e7 10%,
+          rgba(13, 86, 231, 0) 42%
+        );
+        background: -ms-linear-gradient(
+          left,
+          #0d56e7 10%,
+          rgba(13, 86, 231, 0) 42%
+        );
+        background: linear-gradient(
+          to right,
+          #0d56e7 10%,
+          rgba(13, 86, 231, 0) 42%
+        );
+        position: relative;
+        -webkit-animation: load3 1.4s infinite linear;
+        animation: load3 1.4s infinite linear;
+        -webkit-transform: translateZ(0);
+        -ms-transform: translateZ(0);
+        transform: translateZ(0);
+      }
+      .loader:before {
+        width: 50%;
+        height: 50%;
+        background: #0d56e7;
+        border-radius: 100% 0 0 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: "";
+      }
+      .loader:after {
+        background: #fff;
+        width: 75%;
+        height: 75%;
+        border-radius: 50%;
+        content: "";
+        margin: auto;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+      }
+      @-webkit-keyframes load3 {
+        0% {
+          -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+        }
+        100% {
+          -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes load3 {
+        0% {
+          -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+        }
+        100% {
+          -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav
+      class="navbar navbar-expand-sm navbar-dark"
+      style="background-color: #137aaa; padding: 0px"
+    >
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#"
+          ><img
+            src="{% static 'videocall/Picture1.png' %}"
+            height="60px"
+            width="60px"
+            style="margin: 0"
+        /></a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <div class="row w-100">
+            <div class="col-sm-8 ps-5">
+              <h1 class="ms-5 ps-5 text-center">Book Your Appointment</h1>
+            </div>
+            <div class="col-sm-2 text-end">
+              <p style="font-size: 20px" class="text-center">
+                Welcome, {{user.username}}
+              </p>
+            </div>
+            <div class="col-sm-2 text-end">
+              <a
+                style="font-size: 20px"
+                class="btn btn-danger text-end"
+                href="{% url 'logout' %}"
+                >Logout</a
+              >
+            </div>
+          </div>
+          <!-- <h1 class="me-5 pe-5">Book Your Appointment</h1>
+          <p style="font-size: 20px;" class="text-start">Welcome, {{user.username}} </p>
+          <a style="font-size: 20px;" class="text-end" href="{% url 'logout' %}">Logout</a> -->
+        </div>
+      </div>
+    </nav>
+
+    <!-- Booking Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Your Booking Details
+            </h5>
+            <button
+              id="modalcross"
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body" id="modalBody">
+            <p>Doctor Name:</p>
+            <p>Specialist:</p>
+            <p>Time Slot:</p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button id="modalconfirm" type="button" class="btn btn-primary">
+              Confirm Booking
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Booking Modal End-->
+
+    <!-- After Meeting Modal Start-->
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal2"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel2"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">Hope doctor diagnosed your disease.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- modal after meeting End-->
+
+    <!--Confirm Meeting Modal Start-->
+
+    <!-- Button trigger modal -->
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal3"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel3"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            Your Booking has been confirmed. An Email with videocall id has been
+            sent to you. Please join Call on time.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Confirm Meeting Modal End-->
+
+    <div class="container">
+      <form action="/auth/search-and-book-appointment" method="get">
+        <div class="row my-3">
+          <div class="col-md-4 text-center">
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1"> Location </span>
+              <input
+                type="text"
+                name="state"
+                class="form-control"
+                id="cityID"
+                placeholder="Search by city or state"
+                aria-label="Username"
+                aria-describedby="basic-addon1"
+              />
+            </div>
+          </div>
+          <div class="col-md-4 text-center">
+            <div class="input-group mb-3">
+              <select
+                name="specialization"
+                class="form-select"
+                id="inputGroupSelect03"
+                aria-label="Example select with button addon"
+              >
+                <option selected>Choose Specialist</option>
+                <option value="Allergy & Clinical Immunology">
+                  Allergy & Clinical Immunology
+                </option>
+                <option value="Blood Screening">Blood Screening</option>
+                <option value="Cardiology">Cardiology</option>
+                <option value="Dentistry">Dentistry</option>
+                <option value="ENT Specialists">ENT Specialists</option>
+                <option value="Eye Care">Eye Care</option>
+                <option value="Gastroenterologists">Gastroenterologists</option>
+                <option value="Neuroanatomy">Neuroanatomy</option>
+                <option value="Oncologists">Oncologists</option>
+                <option value="Pediatricians">Pediatricians</option>
+                <option value="Physical Therapy">Physical Therapy</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-4 text-center">
+            <button id="" type="submit" class="w-75 btn btn-primary">
+              Send
+            </button>
+          </div>
+        </div>
+      </form>
+
+      {% if doctors %}
+      <div class="row">
+        <div class="table-responsive">
+          <table class="table table-dark table-hover">
+            <thead>
+              <td>NAME</td>
+              <td>SPECIALIST</td>
+              <td>TIME SLOT</td>
+              <td>BOOK</td>
+            </thead>
+            <tbody id="tableBody">
+              {% for doc in doctors %}
+              <tr>
+                <td>{{doc.name}}</td>
+                <td>{{doc.specialization}}</td>
+                <td>
+                  <div class="inline-block">
+                    <input
+                      type="radio"
+                      class="btn-check"
+                      name='{{doc.name|cut:" "}}'
+                      id='doctor{{doc.name|cut:" "}}1'
+                      autocomplete="off"
+                      value="Right Now"
+                      onchange="btnenable(event)"
+                    />
+                    <label
+                      class="btn btn-primary"
+                      for='doctor{{doc.name|cut:" "}}1'
+                    >
+                      Right Now
+                    </label>
+                    <input
+                      type="radio"
+                      class="btn-check"
+                      name='{{doc.name|cut:" "}}'
+                      id='doctor{{doc.name|cut:" "}}2'
+                      autocomplete="off"
+                      value="10-11"
+                      onchange="btnenable(event)"
+                    />
+                    <label
+                      class="btn btn-primary"
+                      for='doctor{{doc.name|cut:" "}}2'
+                      >10-11</label
+                    >
+
+                    <input
+                      type="radio"
+                      class="btn-check"
+                      name='{{doc.name|cut:" "}}'
+                      id='doctor{{doc.name|cut:" "}}3'
+                      autocomplete="off"
+                      value="11-12"
+                      onchange="btnenable(event)"
+                    />
+                    <label
+                      class="btn btn-primary"
+                      for='doctor{{doc.name|cut:" "}}3'
+                      >11-12</label
+                    >
+
+                    <input
+                      type="radio"
+                      class="btn-check"
+                      name='{{doc.name|cut:" "}}'
+                      id='doctor{{doc.name|cut:" "}}4'
+                      autocomplete="off"
+                      value="12-1"
+                      onchange="btnenable(event)"
+                    />
+                    <label
+                      class="btn btn-primary"
+                      for='doctor{{doc.name|cut:" "}}4'
+                      >12-1</label
+                    >
+                  </div>
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-success disabled"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    onclick="book(event)"
+                  >
+                    Book
+                  </button>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    <div class="row justify-content-center">
+      <button
+        class="d-none btn btn-primary align-items-center w-25"
+        id="videobtn"
+        onclick="videoCall()"
+      >
+        Video Call
+      </button>
+    </div>
+
+    <button
+      type="button"
+      style="visibility: hidden"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      id="aftermeetingModal"
+      data-bs-target="#exampleModal2"
+    ></button>
+    <button
+      type="button"
+      style="visibility: hidden"
+      class="btn btn-primary"
+      id="meetingconfirm"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal3"
+    ></button>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+    <script src="{% static 'videocall/videocallpage.js' %}"></script>
+  </body>
+</html>
