@@ -48,10 +48,6 @@
       img.responsive-img {
         height: 25vh;
       }
-      #top-container{
-        padding-right: 100px;
-        padding-left: 100px;
-      }
     </style>
   </head>
   <body>
@@ -84,16 +80,15 @@
       <div class="navbar-fixed">
         <nav>
           <div class="nav-wrapper blue darken-2">
-            <div id="top-container">
-              <!-- <a href="" class="brand-logo">
+            <div class="container">
+              <a href="" class="brand-logo">
                 <img
                   src="{% static 'videocall/Logo.png' %}"
                   style="margin: 0; padding: 0"
                   height="65px"
                   width="65px"
                 />
-              </a> -->
-              <a href="" class="brand-logo"> Apna CheckUp</a>
+              </a>
               <a href="" class="sidenav-trigger" data-target="mobile-links">
                 <i class="material-icons">menu</i>
               </a>
@@ -115,7 +110,6 @@
                     Know Your Disease <i class="material-icons right"> send </i>
                   </a>
                 </li>
-                <li><a href="https://checkupnow.netlify.app/" class="btn blue lighten-2 waves-effect waves-light"> Get Your Report <i class="material-icons right"> send </i> </a></li>
               </ul>
             </div>
           </div>
@@ -126,7 +120,6 @@
         <li><a href="{% url 'index' %}">Home</a></li>
         <li><a href="#about-team">About</a></li>
         <li><a href="{% url 'know-your-disease' %}">Know Your Disease</a></li>
-        <li><a href="https://checkupnow.netlify.app/">Get Your Report</a></li>
       </ul>
 
       <section id="bg-image"></section>
