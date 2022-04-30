@@ -1,6 +1,5 @@
-
-from pathlib import Path
 import os
+from pathlib import Path
 from decouple import config
 import dj_database_url
 import django_heroku
@@ -139,4 +138,5 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = '/auth/login/'
+
 LOGOUT_REDIRECT_URL = '/'
