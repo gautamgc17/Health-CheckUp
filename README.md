@@ -157,7 +157,7 @@ python manage.py runserver
 
 ## Confirmation Mail
 
-![Confirmation Mail](website-screenshots/mail.jpg)
+![Confirmation Mail](website-screenshots/mail.JPG)
 
 ## Video Call
 
