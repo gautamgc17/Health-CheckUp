@@ -1,4 +1,4 @@
-# Project Name : Apna Doctor - An AI based Health-CheckUp Web Tool
+## Project Name : Apna Doctor - An AI based Health-CheckUp Web Tool
 
 ## Theme : Healthcare
 
