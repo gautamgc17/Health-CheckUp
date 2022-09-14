@@ -95,7 +95,7 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
-- Run the server code.
+- Insert some dummy doctor data into the sqlite database and then finally run the server code.
 
 ```
 python manage.py runserver
