@@ -1,4 +1,5 @@
-## Project Name : Apna Doctor - An AI based Health-CheckUp Web Tool
+## Project Name 
+__Apna Doctor - An AI based Health-CheckUp Web Tool__
 
 
 ## Motivation
