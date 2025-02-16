@@ -63,7 +63,7 @@ pip install -r requirements.txt
 
 **Step3 . Download the trained models and include them in the models folder of the root directory.**
 
-The trained deep learning models can be downloaded from [here](https://drive.google.com/drive/folders/1F7sorqZSzclZL7hlXdkXRovF1wunTbkg?usp=sharing).
+The trained deep learning models can be downloaded from [here](https://drive.google.com/drive/folders/1_A7VgM08sQ6Pgzb7ohmTb17EyRASAOCb).
 
 **Step 4. Set up Amazon Transcribe API for speech to text conversion**
 
